@@ -67,14 +67,27 @@ public class BinaryTree {
         return leftOk && rightOk;
     }
 
-    //Есть отсортированный массив. Нужно по нему построить сбалансированное бинарное дерево поиска. Должно работать за O(N).
-
+    //13. Есть отсортированный массив. Нужно по нему построить сбалансированное бинарное дерево поиска. Должно работать за O(N).
+    public Node buildFromSortedArray(int [] array, int start, int end) {
+        if (start > end) return null;
+        int mid = start + (end - start + 1) / 2;
+        Node root=new Node(array[mid]);
+        root.left = buildFromSortedArray(array, start,mid-1);
+        root.right = buildFromSortedArray(array, mid + 1, end);
+        return root;
+    }
 
     public static void main(String args[]) {
         BinaryTree tree = new BinaryTree();
         int arr[] = { 1, 2, 3, 4, 5, 6, 6, 6, 6 };
         int arr2[] = {10, 7, 12, 5, 8, 11, 14};
         tree.root = tree.create(arr2);
+
+        int arr3[] = new int[10];
+        for (int i = 0; i < 10; i++) arr3[i] = i;
+        tree = new BinaryTree();
+        tree.root = tree.buildFromSortedArray(arr3, 0, 9);
         System.out.println("Is BST? " + tree.isBST(tree.root));
+        tree.inOrder(tree.root);
     }
 }
